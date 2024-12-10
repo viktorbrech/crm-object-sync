@@ -41,7 +41,7 @@ app.get('/oauth-callback', async (req, res) => {
         }
     }
 });
-app.get('/intial-contacts-sync', async (req, res) => {
+app.get('/initial-contacts-sync', async (req, res) => {
     const syncResults = await (0, initialSyncFromHubSpot_1.initialContactsSync)();
     res.send(syncResults);
 });
