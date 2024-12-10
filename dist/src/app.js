@@ -4,56 +4,47 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const client_1 = require("@prisma/client");
 const auth_1 = require("./auth");
 require("dotenv/config");
 const utils_1 = require("./utils");
-const prisma = new client_1.PrismaClient();
+const initialSyncFromHubSpot_1 = require("./initialSyncFromHubSpot");
+const initialSyncToHubSpot_1 = require("./initialSyncToHubSpot");
+const clients_1 = require("./clients");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.get('/contacts', async (req, res) => {
-    const prisma = new client_1.PrismaClient();
-    const contacts = await prisma.contacts.findMany({});
+    const contacts = await clients_1.prisma.contacts.findMany({});
     res.send(contacts);
 });
-app.get("/api/install", (req, res) => {
-    res.send(auth_1.authUrl);
+app.get('/api/install', (req, res) => {
+    res.send(`<html><body><a href="${auth_1.authUrl}" target="blank">${auth_1.authUrl}</a></body></html>`);
 });
-app.get("/oauth-callback", async (req, res) => {
+app.get('/sync-contacts', async (req, res) => {
+    const syncResults = await (0, initialSyncToHubSpot_1.syncContactsToHubSpot)();
+    res.send(syncResults);
+});
+app.get('/', async (req, res) => {
+    const accessToken = await (0, auth_1.getAccessToken)((0, utils_1.getCustomerId)());
+    res.send(accessToken);
+});
+app.get('/oauth-callback', async (req, res) => {
     const code = req.query.code;
     if (code) {
         try {
             const authInfo = await (0, auth_1.redeemCode)(code.toString());
             const accessToken = authInfo.accessToken;
-            res.redirect(`http://localhost:${utils_1.PORT - 1}/`);
+            res.redirect(`http://localhost:${utils_1.PORT}/`);
         }
         catch (error) {
             res.redirect(`/?errMessage=${error.message}`);
         }
     }
 });
-// app.post("/addcontacts", async (req, res) => {
-//   try{
-//       const {id, email, first_name, last_name, hs_object_id} = req.body
-//       const newContact = await prisma.contacts.create({
-//           data: {
-//               id,
-//               email,
-//               first_name,
-//               last_name,
-//               hs_object_id
-//           }
-//       })
-//   res.json(newContact)
-//    }
-//     catch (error:any) {
-//       console.log(error.message)
-//       res.status(500).json({
-//           message: "Internal Server Error",
-//       })
-//    }
-// })
+app.get('/intial-contacts-sync', async (req, res) => {
+    const syncResults = await (0, initialSyncFromHubSpot_1.initialContactsSync)();
+    res.send(syncResults);
+});
 app.listen(utils_1.PORT, function () {
-    console.log('App is listening on port ${port}');
+    console.log(`App is listening on port ${utils_1.PORT}`);
 });
