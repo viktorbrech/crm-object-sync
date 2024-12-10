@@ -17,12 +17,12 @@ const data: Prisma.ContactsCreateManyInput[] = Array.from({ length: 10 }).map(
 
 /*Run seed command and the function below inserts data in the database*/
 async function main() {
-
-  console.log(`=== Generated ${data.length} contacts ===`);
-  await prisma.contacts.createMany({
-    data,
-    // skipDuplicates: true // fakerjs will repeat emails
-  });
+    console.log(`=== Generated ${data.length} contacts ===`);
+    for (const contact of data) {
+        await prisma.contacts.create({
+            data: contact,
+        });
+    }
 }
 
 main()

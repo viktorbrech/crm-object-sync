@@ -40,7 +40,7 @@ Setup:
 
 5. Run `npm run db-init` to create the necessary tables in PostgreSQL
 
-6. Optional: Run `npm dev seed` to seed the database with test data
+6. Optional: Run `npm run db-seed` to seed the database with test data
 
 7. In your [HubSpot public app](https://developers.hubspot.com/docs/api/creating-an-app), add localhost:3001/oauth-callback as a redirect URL
 
