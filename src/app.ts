@@ -26,7 +26,6 @@ app.get('/sync-contacts', async (req: Request, res: Response) => {
   const syncResults = await syncContactsToHubSpot();
   res.send(syncResults);
 });
-
 app.get('/', async (req: Request, res: Response) => {
   const accessToken = await getAccessToken(getCustomerId());
 
@@ -47,7 +46,7 @@ app.get('/oauth-callback', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/intial-contacts-sync', async (req: Request, res: Response) => {
+app.get('/initial-contacts-sync', async (req: Request, res: Response) => {
   const syncResults = await initialContactsSync();
   res.send(syncResults);
 });
