@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.contacts = void 0;
-exports.contacts = [
+
+const contacts = [
     {
         email: "1@hubspot.com",
         first_name: "One",
@@ -13,3 +12,5 @@ exports.contacts = [
         last_name: "Contact"
     }
 ];
+
+module.exports = { contacts };

@@ -1,15 +1,16 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const faker_1 = require("@faker-js/faker");
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
-/*Create dataset, mapping over an array*/
+
+const { faker } = require("@faker-js/faker");
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
+
 const data = Array.from({ length: 10 }).map(() => ({
-    first_name: faker_1.faker.person.firstName(),
-    last_name: faker_1.faker.person.lastName(),
-    email: faker_1.faker.internet.email().toLowerCase() //normalize before adding to db
+    first_name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    email: faker.internet.email().toLowerCase()
 }));
-/*Run seed command and the function below inserts data in the database*/
+
 async function main() {
     console.log(`=== Generated ${data.length} contacts ===`);
     for (const contact of data) {
@@ -18,9 +19,10 @@ async function main() {
         });
     }
 }
+
 main()
     .catch((e) => {
-    console.log(e);
+        console.error(e);
     process.exit(1);
 })
     .finally(() => {
