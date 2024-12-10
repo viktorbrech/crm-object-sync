@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Contacts {
@@ -27,17 +27,17 @@ model Companies {
 }
 
 model Authorization {
-  customerId   String    @id @db.VarChar(255)
-  hsPortalId   String    @db.VarChar(255)
-  accessToken  String    @db.VarChar(255)
-  refreshToken String    @db.VarChar(255)
+  customerId   String  @id
+  hsPortalId   String
+  accessToken  String
+  refreshToken String
   expiresIn    Int?
-  expiresAt    DateTime? @db.Timestamp(6)
+  expiresAt    DateTime?
 }
 
 model SyncJobs {
   id            Int       @id @default(autoincrement())
-  executionTime DateTime? @db.Timestamp
-  success       Json?     @db.Json
-  failures      Json?     @db.Json
+  executionTime DateTime?
+  success       String?
+  failures      String?
 }

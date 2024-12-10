@@ -45,19 +45,19 @@ class BatchToBeSynced {
   #batchReadOutput:
     | BatchResponseSimplePublicObject
     | BatchResponseSimplePublicObjectWithErrors = {
-    status: BatchResponseSimplePublicObjectStatusEnum.Pending,
-    results: [],
-    startedAt: new Date(),
-    completedAt: new Date()
-  };
+      status: BatchResponseSimplePublicObjectStatusEnum.Pending,
+      results: [],
+      startedAt: new Date(),
+      completedAt: new Date()
+    };
   #batchCreateOutput:
     | BatchResponseSimplePublicObject
     | BatchResponseSimplePublicObjectWithErrors = {
-    status: BatchResponseSimplePublicObjectStatusEnum.Pending,
-    results: [],
-    startedAt: new Date(),
-    completedAt: new Date()
-  };
+      status: BatchResponseSimplePublicObjectStatusEnum.Pending,
+      results: [],
+      startedAt: new Date(),
+      completedAt: new Date()
+    };
   #batchReadError: Error | null = null;
   #syncErrors: StandardError[] | null = null;
   #saveErrors: Error[] | null = null;
@@ -284,10 +284,16 @@ const syncContactsToHubSpot = async () => {
     }
     await syncCohort.saveHSContactIDToDatabase();
   }
+
+  const finalResultsString = JSON.stringify(finalResults);
+  const finalErrorsString = JSON.stringify(finalErrors);
+
+  // Update the data assignment
   await prisma.syncJobs.update({
     where: { id: syncJobId },
-    data: { success: finalResults, failures: finalErrors }
+    data: { success: finalResultsString, failures: finalErrorsString }
   });
+
 
   console.log(
     `==== Batch sync complete, this job produced ${finalResults.length} successes and ${finalErrors.length} errors, check the syncJobs table for full results ====`

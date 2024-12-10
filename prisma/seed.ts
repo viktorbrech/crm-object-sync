@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 
 /*Create dataset, mapping over an array*/
-const data: Prisma.ContactsCreateManyInput[] = Array.from({ length: 1000 }).map(
+const data: Prisma.ContactsCreateManyInput[] = Array.from({ length: 10 }).map(
   () => ({
     first_name: faker.person.firstName(),
     last_name: faker.person.lastName(),
@@ -21,7 +21,7 @@ async function main() {
   console.log(`=== Generated ${data.length} contacts ===`);
   await prisma.contacts.createMany({
     data,
-    skipDuplicates: true // fakerjs will repeat emails
+    // skipDuplicates: true // fakerjs will repeat emails
   });
 }
 
