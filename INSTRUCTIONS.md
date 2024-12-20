@@ -140,7 +140,7 @@ Suppose you wanted to switch this app to private app authentication. Try and pin
 
 Suppose the "external system" HubSpot is integrating with here is some project management tool. You want to achieve a 15-min sync cycle. What would need to happen for this app to be syncing contacts every 15 minutes?
 
-Critically assess the fundamental architecture of this app: why is it running a web server at all? Which elements (if any) of the app's functionality critically rely on a running web server, and which elements could be implmeneted without it?
+Critically assess the fundamental architecture of this app: why is it running a web server at all? Which elements (if any) of the app's functionality critically rely on a running web server, and which elements could be implemented without it?
 
 ### Exercise 5
 
