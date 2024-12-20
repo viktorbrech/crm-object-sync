@@ -73,6 +73,14 @@ Once you have recorded your Zoom, please share it with me immediately on Slack. 
 
 - crm.schemas.contacts.read
 
+- crm.objects.companies.read
+
+- crm.objects.companies.write
+
+- crm.objects.contacts.read
+
+- crm.objects.contacts.write
+
 6. This sample app uses a SQLite database, and you may find it beneficial to have an easy way to inspect its contents. For that reason, you should install something like https://sqlitebrowser.org/ (available for Windows as well as MacOS). Just point it to the prisma/dev.db file the app will create.
 
 7. Make sure to DISABLE Github Copilot if you have it. You can use HubGPT to aid in your analysis, but no other AI tools.
